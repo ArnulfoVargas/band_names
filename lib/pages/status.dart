@@ -24,7 +24,7 @@ class StatusPage extends StatelessWidget {
         child: const Icon(Icons.send),
         onPressed:  () {
           Map payload = {"name" : "Flutter", "message" : "Hello from flutter"};
-          socketService.Emit("new-message", payload);
+          socketService.emit("new-message", payload);
         },
       ),
     );

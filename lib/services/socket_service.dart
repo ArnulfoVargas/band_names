@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:socket_io_client/socket_io_client.dart';
 
 enum ServerStatus{
@@ -11,19 +11,19 @@ enum ServerStatus{
 
 class SocketService with ChangeNotifier{
   ServerStatus _serverStatus = ServerStatus.connecting;
-  IO.Socket? _socket;
+  io.Socket? _socket;
 
   ServerStatus get serverStatus => _serverStatus;
-  IO.Socket get socket => _socket!;
+  io.Socket get socket => _socket!;
 
-  get Emit => _socket!.emit;
+  get emit => _socket!.emit;
 
   SocketService(){
     _initConfig();
   }
 
   void _initConfig(){
-    _socket = IO.io('http://192.168.100.21:3000/', 
+    _socket = io.io('http://192.168.100.21:3000/', 
         {'transports': ['websocket'], 'autoConnect': true}
       );
 
