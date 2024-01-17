@@ -11,19 +11,29 @@ enum ServerStatus{
 
 class SocketService with ChangeNotifier{
   ServerStatus _serverStatus = ServerStatus.connecting;
+  IO.Socket? _socket;
+
+  ServerStatus get serverStatus => _serverStatus;
+  IO.Socket get socket => _socket!;
+
+  get Emit => _socket!.emit;
 
   SocketService(){
     _initConfig();
   }
 
   void _initConfig(){
-    IO.Socket socket = IO.io('http://192.168.100.21:3000/', 
+    _socket = IO.io('http://192.168.100.21:3000/', 
         {'transports': ['websocket'], 'autoConnect': true}
       );
 
-    socket.onConnect((_) {
-      print('connect');
+    _socket!.onConnect((_) {
+      _serverStatus = ServerStatus.online;
+      notifyListeners();
     });
-    socket.onDisconnect((_) => print('disconnect'));
+    _socket!.onDisconnect((_) {
+      _serverStatus = ServerStatus.offline;
+      notifyListeners();
+    });
   }
 }

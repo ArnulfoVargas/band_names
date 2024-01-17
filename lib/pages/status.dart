@@ -11,9 +11,21 @@ class StatusPage extends StatelessWidget {
     
     final SocketService socketService = Provider.of<SocketService>(context);
 
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-         child: Text('StatusScreen'),
+         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("ServerStatus: ${socketService.serverStatus}"),
+          ],
+         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.send),
+        onPressed:  () {
+          Map payload = {"name" : "Flutter", "message" : "Hello from flutter"};
+          socketService.Emit("new-message", payload);
+        },
       ),
     );
   }
